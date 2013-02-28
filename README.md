@@ -4,9 +4,9 @@ A template-based markdown enhancement.
 
 The [markdown](http://daringfireball.net/projects/markdown/) is very powerful
 but as the author said, I quote
----
+
 >  The mardown is not intended to replace html
----
+
 
 Markdown is easy to write, and easy to read as a writer.
 However, to embed the html output of markdown to some html template could
@@ -64,14 +64,7 @@ If not template file is assigned, the default one is the file with the same base
 the extension **.mdt**
 
 ## Makefile
-#Makefile
-#Author: Chu-Cheng Hsieh <chucheng@ucla.edu>
-	
-FILES=$(shell ls *.md)
 
-all: embed
-		
-#run tmarkdown for all files
 A example of Makefile:
 
 	FILES=$(shell ls *.md)
