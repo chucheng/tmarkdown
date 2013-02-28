@@ -43,9 +43,8 @@ Options:
 
 
 ## Pre-req
-Make sure you have markdown ready.
-
-The markdown should be able to run by issuing
+Make sure you have markdown ready. And,
+the markdown should be able to run by issuing
 
 	markdown <filename>
 	
@@ -53,9 +52,14 @@ in your shell.
 
 
 ## Configuration
-Or you may edit the variable **g_markdown_cmd** [Setting] section in the tmarkdown.py.
+If you install markdown script locally, you
+may edit the variable *g_markdown_cmd* section in the tmarkdown.py
+to customize the command. It's okay to use either the original perl
+implementation of markdown or some other version, i.e, py27-markdown, etc.
 
-By default the keyword is $content$. You may customize it as well.
+By default the keyword used in the template file is **$content$**. 
+To customize the keyword, you should change varable *g_keyword_in_template*
+in the tmarkdown.py 
 
 
 ## Note
