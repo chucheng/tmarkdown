@@ -13,7 +13,7 @@ Contact: chucheng <at> ucla <dot> edu
 	sudo chmod 755 /usr/bin/tmarkdown
 	
 ## Usage
-Usage: tmarkdown.py [options] <markdown file>
+Usage: tmarkdown [options] <markdown file>
 
 Options:
   -h, --help            show this help message and exit
@@ -22,6 +22,10 @@ Options:
   -k STRING, --keyword=STRING
                         the keyword to be replaced in the template,the default
                         is: $content$
+  -o, --output_to_html  write output to a file (replace md with html &
+                        overwrite existed file.
+  -i, --keep_indent     Counting # of space in front of the keyword and indent
+                        each line in output.
 
 
 ## Pre-req
