@@ -54,6 +54,9 @@ if __name__ == '__main__':
                            "the default is: " + g_keyword_in_template,
                       metavar="STRING",
                       default=g_keyword_in_template)
+    parser.add_option("-o", "--output_to_html", dest="output_to_html", default=False,
+                      action='store_true',
+                      help="write output to a file (replace md with html & overwrite existed file.")
 
     (options, args) = parser.parse_args()
 
@@ -84,20 +87,41 @@ if __name__ == '__main__':
         sys.exit()
 
     find_keyword_before = False
+
+    lines_to_write = ""
+
     with open(options.template_filename, 'r') as tf:
         for line in tf:
             if options.template_keyword in line:
                 if find_keyword_before:
                     print "\n Error: the keyword exists more than once in your template file."
                     print "Check this keyword: " + options.template_keyword
+
                 #find the keyword that need to be replaced
                 status, md_output = commands.getstatusoutput(
                     g_markdown_cmd + " " + args[0])
 
                 with open(args[0]) as markdown_target_fn:
-                    print md_output
-                    find_keyword_before = True
+                    if options.output_to_html: #write to file
+                        lines_to_write += (md_output + "\n")
+                    else: #display in stdout
+                        print md_output
 
+                    find_keyword_before = True
             else:
-                sys.stdout.write(line)
+                if options.output_to_html:
+                    lines_to_write += line
+                else:
+                    sys.stdout.write(line)
+
+    # Write to html when -o is provided
+    if options.output_to_html:
+        target_filename = args[0]
+        base_filename = os.path.splitext(
+            os.path.basename(target_filename)
+        )[0] #get the basename without extension
+        target_dir = os.path.dirname(target_filename)
+        output_filename = target_dir + base_filename + ".html" #output file name
+        with open(output_filename, 'w') as of:
+            of.write(lines_to_write)
 
