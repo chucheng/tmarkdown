@@ -1,7 +1,21 @@
 # tmarkdown.py
 
-A template-based markdown plug-in. 
-The program a simple script to help run markdown and merge its output to a template file.
+A template-based markdown enhancement.
+
+The [markdown](http://daringfireball.net/projects/markdown/) is very powerful
+but as the author said, I quote
+---
+>  The mardown is not intended to replace html
+---
+
+Markdown is easy to write, and easy to read as a writer.
+However, to embed the html output of markdown to some html template could
+be quite annoying in that copy-paste is quite cumbersome.  
+
+Therefore, I create this enhancement script, aiming to help
+markdown to **embed** its html output to a pre-defined html template (*.mdt).
+In a word, it helps the merge by search replace a keyword ($content$) in your 
+template file.
 
 Author: Chu-Cheng Hsieh  
 Contact: chucheng <at> ucla <dot> edu
@@ -49,19 +63,41 @@ By default the keyword is $content$. You may customize it as well.
 If not template file is assigned, the default one is the file with the same base filename and
 the extension **.mdt**
 
+## Makefile
+#Makefile
+#Author: Chu-Cheng Hsieh <chucheng@ucla.edu>
+	
+FILES=$(shell ls *.md)
+
+all: embed
+		
+#run tmarkdown for all files
+A example of Makefile:
+
+	FILES=$(shell ls *.md)
+	
+	all: embed
+			
+	#run tmarkdown for all files
+	embed: $(FILES)
+		$(foreach f,$(FILES),tmarkdown --output_to_html --keep_indent $(f);)
+	
+	display: $(FILES)
+		$(foreach f,$(FILES),tmarkdown $(f);)
+
 
 
 ## License
 
-    This program is free software: you can redistribute it and/or modify
+> This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
+>This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
+>You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
