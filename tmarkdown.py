@@ -57,6 +57,9 @@ if __name__ == '__main__':
     parser.add_option("-o", "--output_to_html", dest="output_to_html", default=False,
                       action='store_true',
                       help="write output to a file (replace md with html & overwrite existed file.")
+    parser.add_option("-i", "--keep_indent", dest="keep_indent", default=False,
+                      action='store_true',
+                      help="Counting # of space in front of the keyword and indent each line in output.")
 
     (options, args) = parser.parse_args()
 
@@ -90,6 +93,9 @@ if __name__ == '__main__':
 
     lines_to_write = ""
 
+    num_space_indent = 0
+    indent_str = ""
+
     with open(options.template_filename, 'r') as tf:
         for line in tf:
             if options.template_keyword in line:
@@ -97,15 +103,29 @@ if __name__ == '__main__':
                     print "\n Error: the keyword exists more than once in your template file."
                     print "Check this keyword: " + options.template_keyword
 
+
                 #find the keyword that need to be replaced
+                #excute markdown
                 status, md_output = commands.getstatusoutput(
                     g_markdown_cmd + " " + args[0])
 
+                #prepare for indent if necessary
+                if options.keep_indent: #need to indent each line produce by markdown
+                    num_space_indent = line.index(options.template_keyword)
+                    indent_str = line[:num_space_indent]
+                    if indent_str.strip()<>"":
+                        indent_str="" #still skip indent because it contains non-indent character
+                    indented_md_output = ""
+                    for line in md_output.split('\n'):
+                        indented_md_output += indent_str + line + '\n'
+                    md_output = indented_md_output
+
+                #output to either file or stdout
                 with open(args[0]) as markdown_target_fn:
-                    if options.output_to_html: #write to file
-                        lines_to_write += (md_output + "\n")
+                    if options.output_to_html: #write to a file
+                        lines_to_write += (md_output)
                     else: #display in stdout
-                        print md_output
+                        sys.stdout.write(md_output)
 
                     find_keyword_before = True
             else:
