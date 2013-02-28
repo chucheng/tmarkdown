@@ -1,7 +1,28 @@
 # tmarkdown.py
 
+A template-based markdown plug-in. 
+The program a simple script to help run markdown and merge its output to a template file.
+
 Author: Chu-Cheng Hsieh  
 Contact: chucheng <at> ucla <dot> edu
+
+
+## Installation
+
+	sudo cp tmarkdown.py /usr/bin/tmarkdown
+	sudo chmod 755 /usr/bin/tmarkdown
+	
+## Usage
+Usage: tmarkdown.py [options] <markdown file>
+
+Options:
+  -h, --help            show this help message and exit
+  -t FILE, --template=FILE
+                        assign a specific template filename
+  -k STRING, --keyword=STRING
+                        the keyword to be replaced in the template,the default
+                        is: $content$
+
 
 ## Pre-req
 Make sure you have markdown ready.

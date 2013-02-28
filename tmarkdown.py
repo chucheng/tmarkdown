@@ -3,7 +3,7 @@ __author__ = 'chucheng'
 __contact__ = 'chucheng <at> ucla <dot> edu'
 
 """
-"tmarkdown" is a simple script to help run markdown
+"tmarkdown" is a simple script to help run markdown and merge its output to a template file.
 
 Pre-requistie:
   you should already install markdown and the markdown must be triggered by
@@ -83,15 +83,21 @@ if __name__ == '__main__':
         parser.print_help()
         sys.exit()
 
+    find_keyword_before = False
     with open(options.template_filename, 'r') as tf:
         for line in tf:
             if options.template_keyword in line:
+                if find_keyword_before:
+                    print "\n Error: the keyword exists more than once in your template file."
+                    print "Check this keyword: " + options.template_keyword
                 #find the keyword that need to be replaced
                 status, md_output = commands.getstatusoutput(
                     g_markdown_cmd + " " + args[0])
 
                 with open(args[0]) as markdown_target_fn:
                     print md_output
+                    find_keyword_before = True
+
             else:
                 sys.stdout.write(line)
 
