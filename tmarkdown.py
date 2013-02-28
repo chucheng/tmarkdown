@@ -144,4 +144,5 @@ if __name__ == '__main__':
         output_filename = target_dir + base_filename + ".html" #output file name
         with open(output_filename, 'w') as of:
             of.write(lines_to_write)
+        print "Write output to: " + output_filename
 
